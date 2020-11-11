@@ -1,166 +1,49 @@
-# Ember.js [![Build Status](https://secure.travis-ci.org/emberjs/ember.js.png?branch=master)](http://travis-ci.org/emberjs/ember.js)
+<p align="center">
+  <a href="https://emberjs.com"><img width="300" src="https://raw.githubusercontent.com/emberjs/website/master/source/images/brand/ember_Ember-Light.png"></a>
+</p>
 
-Ember.js is a JavaScript framework that does all of the heavy lifting that you'd normally have to do by hand. There are tasks that are common to every web app; Ember.js does those things for you, so you can focus on building killer features and UI.
+<p align="center">
+  <a href="https://www.npmjs.com/package/ember-source"><img src="https://img.shields.io/npm/v/ember-source.svg?style=flat" alt="npm version"></a>
+  <a href="https://github.com/emberjs/ember.js/actions?query=workflow%3ACI"><img src="https://github.com/emberjs/ember.js/workflows/CI/badge.svg" alt="CI Status"></a>
+  <a href="https://codeclimate.com/github/emberjs/ember.js"><img src="https://codeclimate.com/github/emberjs/ember.js.svg" alt="Code Climate"></a>
+  <a href="https://discord.gg/zT3asNS"><img src="https://img.shields.io/discord/480462759797063690.svg?logo=discord" alt="Discord Community Server"></a>
+  <a href="https://help-wanted.emberjs.com/"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://github.com/emberjs/ember.js/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a>
 
-These are the three features that make Ember.js a joy to use:
+</p>
 
-1. Bindings
-2. Computed properties
-3. Auto-updating templates
+**Ember.js** is a JavaScript framework that greatly reduces the time, effort and resources needed to build any web application. It is focused on making you, the developer, as productive as possible by doing all the common, repetitive, yet essential, tasks involved in most web development projects.
 
-## Bindings
+With Ember, you get all of these things:
 
-Use bindings to keep properties between two different objects in sync. You just declare a binding once, and Ember.js will make sure changes get propagated in either direction.
-
-Here's how you create a binding between two objects:
-
-```javascript
-MyApp.president = Ember.Object.create({
-  name: "Barack Obama"
-});
-
-MyApp.country = Ember.Object.create({
-  // Ending a property with 'Binding' tells Ember.js to
-  // create a binding to the presidentName property.
-  presidentNameBinding: 'MyApp.president.name'
-});
-
-// Later, after Ember has resolved bindings...
-MyApp.country.get('presidentName');
-// "Barack Obama"
-```
-Bindings allow you to architect your application using the MVC (Model-View-Controller) pattern, then rest easy knowing that data will always flow correctly from layer to layer.
-
-## Computed Properties
-
-Computed properties allow you to treat a function like a property:
-
-``` javascript
-MyApp.President = Ember.Object.extend({
-  firstName: "Barack",
-  lastName: "Obama",
-
-  fullName: function() {
-    return this.get('firstName') + ' ' + this.get('lastName');
-
-    // Call this flag to mark the function as a property
-  }.property()
-});
-
-MyApp.president = MyApp.President.create();
-MyApp.president.get('fullName');
-// "Barack Obama"
-```
-
-Treating a function like a property is useful because they can work with bindings, just like any other property.
-
-Many computed properties have dependencies on other properties. For example, in the above example, the `fullName` property depends on `firstName` and `lastName` to determine its value. You can tell Ember.js about these dependencies like this:
-
-``` javascript
-MyApp.President = Ember.Object.extend({
-  firstName: "Barack",
-  lastName: "Obama",
-
-  fullName: function() {
-    return this.get('firstName') + ' ' + this.get('lastName');
-
-    // Tell Ember.js that this computed property depends on firstName
-    // and lastName
-  }.property('firstName', 'lastName')
-});
-```
-
-Make sure you list these dependencies so Ember.js knows when to update bindings that connect to a computed property.
-
-## Auto-updating Templates
-
-Ember.js uses Handlebars, a semantic templating library. To take data from your JavaScript application and put it into the DOM, create a `<script>` tag and put it into your HTML, wherever you'd like the value to appear:
-
-``` html
-<script type="text/x-handlebars">
-  The President of the United States is {{MyApp.president.fullName}}.
-</script>
-```
-
-Here's the best part: templates are bindings-aware. That means that if you ever change the value of the property that you told us to display, we'll update it for you automatically. And because you've specified dependencies, changes to *those* properties are reflected as well.
-
-Hopefully you can see how all three of these powerful tools work together: start with some primitive properties, then start building up more sophisticated properties and their dependencies using computed properties. Once you've described the data, you only have to say how it gets displayed once, and Ember.js takes care of the rest. It doesn't matter how the underlying data changes, whether from an XHR request or the user performing an action; your user interface always stays up-to-date. This eliminates entire categories of edge cases that developers struggle with every day.
-
-# Getting Started
-
-For new users, we recommend downloading the [Ember.js Starter Kit](https://github.com/emberjs/starter-kit/downloads), which includes everything you need to get started.
-
-# Building Ember.js
-
-NOTE: Due to the rename, these instructions may be in flux
-
-1. Run `bundle install` to fetch the necessary ruby gems.
-2. Run `rake dist` to build Ember.js. Two builds will be placed in the `dist/` directory.
-  * `ember.js` and `ember.min.js` - unminified and minified
-    builds of Ember.js
-
-If you are building under Linux, you will need a JavaScript runtime for
-minification, for which we recommend installing nodejs.  Alternatively 
-you may have luck with another of the runtimes supported by
-[execjs](https://github.com/sstephenson/execjs).
-
-# How to Run Unit Tests
-
-## Setup
-
-1. Install Ruby 1.9.2+. There are many resources on the web can help; one of the best is [rvm](https://rvm.io/).
-
-2. Install Bundler: `gem install bundler`
-
-3. Run `bundle` inside the project root to install the gem dependencies.
-
-## In Your Browser
-
-1. To start the development server, run `rackup`.
-
-2. Then visit: `http://localhost:9292/?package=PACKAGE_NAME`.  Replace `PACKAGE_NAME` with the name of the package you want to run.  For example:
-
-  * [Ember.js Runtime](http://localhost:9292/?package=ember-runtime)
-  * [Ember.js Views](http://localhost:9292/?package=ember-views)
-  * [Ember.js Handlebars](http://localhost:9292/?package=ember-handlebars)
-
-To run multiple packages, you can separate them with commas. You can run all the tests using the `all` package:
-
-<http://localhost:9292/?package=all>
-
-You can also pass `jquery=VERSION` in the test URL to test different versions of jQuery. Default is 1.9.0.
-
-## From the CLI
-
-1. Install phantomjs from http://phantomjs.org
-
-2. Run `rake test` to run a basic test suite or run `rake test[all]` to
-   run a more comprehensive suite.
-
-3. (Mac OS X Only) Run `rake autotest` to automatically re-run tests
-   when any files are changed.
-
-# Building API Docs
-
-The Ember.js API Docs provide a detailed collection of methods, classes, and viewable source code.
-
-NOTE: Requires node.js to generate.
-
-See <http://emberjs.com/> for annotated introductory documentation.
-
-## Preview API documentation
-
-* Clone https://github.com/emberjs/website.git at the same level as the
-  main Ember repo.
-
-* From the website repo, run `rake preview`
-
-* The docs will be available at <http://localhost:4567/api>
+* [**A Welcoming Community**](https://emberjs.com/community/) - Get the help you need, when you need it.
+* [**An Enduring Foundation for your Apps**](https://en.wikipedia.org/wiki/Ember.js) - There are apps that used the first version of Ember almost a decade ago, and successfully still use Ember today.
+* [**Reliability & Security**](https://emberjs.com/releases/) - With regular LTS Releases and 30 weeks of security fixes, you can rely on Ember.js to care about the stability [and security](https://emberjs.com/security/) of your app.
+* [**Modern JavaScript**](https://guides.emberjs.com/release/upgrading/current-edition/) - Use modern JavaScript features that you're already familiar with like classes, decorators and generators.
+* [**Documentation**](https://guides.emberjs.com) - Rely on top-notch documentation for each Ember version and a team that is focused on the documentation and learning experience.
+* [**HTML-first Components**](https://guides.emberjs.com/release/components/introducing-components/) - Start with valid, semantic HTML in your components, and layer in the functionality that you need, as you need it.
+* [**Routing**](https://guides.emberjs.com/release/routing/) - Ember routes respect URLs while layering in extra functionality like rendering templates, loading data models, handling actions, and conditionally redirecting. 
+* [**Data Layer**](https://guides.emberjs.com/release/models/) - Ember Data is a powerful data management tool that comes with Ember apps by default. Want to use something else? We support that, too!
+* [**Flexibility**](https://guides.emberjs.com/release/models/customizing-adapters/) Use _**any**_ backend stack with your Ember apps, thanks to the flexibility of adapters and serializers.
+* [**Autotracking**](https://guides.emberjs.com/release/in-depth-topics/autotracking-in-depth/) - Ember's reactivity model makes it easier to decide what to automatically update, and when. 
+* [**Zero Config Apps**](https://guides.emberjs.com/release/configuring-ember/) - With strong defaults, you may never need to configure anything in your app, but the options are there if you need it!
+* [**Quality Addon Ecosystem**](https://emberobserver.com/) - high-quality, rated addons with the ability to [search by source code](https://emberobserver.com/code-search?codeQuery=task). Many require no additional configuration, making it easier than ever to supercharge your apps.
 
 
-## Build API documentation
 
-* From the website repo, run `rake build`
+Find out more: 
 
-* The website, along with documentation will be built into the `build`
-  directory
+- [Website](https://emberjs.com)
+- [Guides](https://guides.emberjs.com)
+- [API](https://emberjs.com/api)
+- [Community](https://emberjs.com/community)
+- [Blog](https://emberjs.com/blog)
+- [Builds](https://emberjs.com/builds)
+
+## Contributions
+
+See [CONTRIBUTING.md](https://github.com/emberjs/ember.js/blob/master/CONTRIBUTING.md)
+
+---
+
+Cross-browser testing provided by <a href="http://browserstack.com">Browserstack</a>.
